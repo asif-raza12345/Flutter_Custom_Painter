@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'Components/Doremoon.dart';
-import 'Components/Doremoon_painter.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -25,18 +25,18 @@ class MyApp extends StatelessWidget {
 }
 class Home extends StatefulWidget {
   const Home({super.key});
-
   @override
   State<Home> createState() => _HomeState();
 }
-
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Doremoon(
-        size: Size(200, 200),
-
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Doremoon(
+            size: Size(200, 200)
+        )
       ),
     );
   }

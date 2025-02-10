@@ -32,6 +32,7 @@ class DoremoonPinter extends CustomPainter {
     final pocketradius  =   radius * 0.40;
     final pocketbackradius  = radius * 0.50;
     final handradius = radius * 0.15;
+    final feettradius = radius * 0.2;
     final EyeRadius =  radius * 0.2;
     final lensRadius =  radius * 0.05;
     final innerlensRadius =  radius * 0.018;
@@ -56,6 +57,7 @@ class DoremoonPinter extends CustomPainter {
     final legwidth = width * 0.20;
     final handwidth = width * 0.15;
     final lockradius = radius * 0.05;
+    final footdivation = radius* 0.40;
 
 
 
@@ -91,10 +93,8 @@ class DoremoonPinter extends CustomPainter {
     final leftlegendtline = Offset(pocketcenter.dx -legXivation, pocketcenter.dy+legYdivationend);
     final rightleftstartline = Offset(pocketcenter.dx +legXivation, pocketcenter.dy + legYdivationstart);
     final righttlegendtline = Offset(pocketcenter.dx +legXivation, pocketcenter.dy+legYdivationend);
-    final leftstartfeet = Offset(leftlegtstartline.dx,leftlegtstartline.dy+leftstartfeetdivation);
-    final leftenffeet = Offset(leftlegtstartline.dx,leftlegtstartline.dy +leftstartfeetdivation);
-    final rightstartfeet = Offset(rightleftstartline.dx,rightleftstartline.dy+leftstartfeetdivation);
-    final rightenffeet = Offset(rightleftstartline.dx,rightleftstartline.dy +leftstartfeetdivation);
+     final leftfootcenter = Offset(leftlegendtline.dx,leftlegendtline.dy+ footdivation);
+    final righttfootcenter = Offset(righttlegendtline.dx,leftlegendtline.dy+ footdivation);
 
 
     //  draw belt
@@ -130,11 +130,6 @@ class DoremoonPinter extends CustomPainter {
     final StartMustachesXderivation = radius * 0.5;
     final EndtMustachesXderivation = radius * 0.1;
     final EndtMustachesYderivation = radius * 0.05;
-    final leftMustachesdevation = radius * 0.07;
-    final lefMustachesdevation = radius * 0.1;
-    final leftMustachesdevation2 = radius * 0.15;
-    final startleftMustachesdevation3 = radius * 0.2;
-    final endtleftMustachesdevation3 = radius * 0.25;
 
 
 
@@ -147,7 +142,6 @@ class DoremoonPinter extends CustomPainter {
     final Mustacheendline2 =  Offset(headcenter.dx -EndtMustachesXderivation, headcenter.dy);
     final Mustachestratline3  =  Offset(headcenter.dx - StartMustachesXderivation, headcenter.dy + rightMustachesydevation3);
     final Mustacheendline3 =  Offset(headcenter.dx -EndtMustachesXderivation, headcenter.dy  + EndtMustachesYderivation);
-
 
 
     // Draw Right Mustaches
@@ -174,17 +168,14 @@ class DoremoonPinter extends CustomPainter {
     style = PaintingStyle.stroke;
     final  legpaint = Paint()..color = faceColor..
     strokeWidth = legwidth..strokeCap = StrokeCap.round;
-    final  feetpaint = Paint()..color = pocketColor..
-    strokeWidth = legwidth..strokeCap = StrokeCap.round;
+    final  feetpaint = Paint()..color = pocketColor;
+    final  feetborderpaint = Paint()..color = lenseColor..
+    style = PaintingStyle.stroke;
     final  armpaint = Paint()..color = faceColor..
     strokeWidth = handwidth..strokeCap = StrokeCap.round;
     final  lockpant = Paint()..color = lockColor;
-
-
-
-
-
-
+    final  handboderpaint = Paint()..color = lenseColor..
+    style = PaintingStyle.stroke;
 
 
 
@@ -240,9 +231,12 @@ class DoremoonPinter extends CustomPainter {
     // draw right leg
     canvas.drawLine(rightleftstartline, righttlegendtline, legpaint);
     // draw left feet
-    canvas.drawLine(leftstartfeet, leftenffeet, feetpaint);
+    canvas.drawCircle(leftfootcenter, feettradius, feetpaint);
+    canvas.drawCircle(leftfootcenter, feettradius, feetborderpaint);
+
     // draw right feet
-    canvas.drawLine(rightstartfeet, rightenffeet, feetpaint);
+    canvas.drawCircle(righttfootcenter, feettradius, feetpaint);
+    canvas.drawCircle(righttfootcenter, feettradius, feetborderpaint);
     //   draw left arm
     canvas.drawLine(leftarmstart, leftarmend, armpaint);
     //   draw right  arm
@@ -251,6 +245,10 @@ class DoremoonPinter extends CustomPainter {
     canvas.drawCircle(lefthandcenter, handradius, eyepaint);
     //   draw right  hand
     canvas.drawCircle(righthandcenter, handradius, eyepaint);
+    //   draw rightborder  hand
+    canvas.drawCircle(righthandcenter, handradius, handboderpaint);
+    // draw left handborder
+    canvas.drawCircle(lefthandcenter, handradius, handboderpaint);
     //    draw beltlock
     canvas.drawCircle(lockcenter, lockradius, lockpant);
 

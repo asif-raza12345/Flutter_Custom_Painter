@@ -17,7 +17,6 @@ class Doremoon extends StatefulWidget {
     this.lenseColor = Colors.black,
     this.mouthColor = Colors.black,
   });
-
   final Size size;
   final Color mouthColor;
   final   Color faceColor;
