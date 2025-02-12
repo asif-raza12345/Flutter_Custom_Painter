@@ -2,32 +2,37 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class MyCustomClock extends CustomPainter {
 
+class MyCustomPainter extends CustomPainter {
+  DateTime now;
   Color dialColor;
   Color dialborderColor;
 
-  MyCustomClock({
+  MyCustomPainter({
+    required this.now,
     this.dialColor = Colors.white,
     this.dialborderColor = Colors.black
-  });
+});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Size(:width,:height) = size;
-    final radius  = min(width, height)/2;
-    final borderRedius = min(width,height)/2;
-    final Clickradius = borderRedius * 0.90;
-    final double bellRadius = radius * 0.3;
-    final linewidth = width * 0.06;
-    final hoursTicklength = height * 0.15;
-    final hoursTickwidth = width * 0.02;
-    final mintsTicklength = height * 0.1;
-    final mintsTickwidth = width * 0.020;
-    final hoursNodleradius = radius* 0.15;
-    final mintNodleradius = radius* 0.1;
-    final angle =   2 * pi/60;
+final Size(:width,:height) = size;
+List<String> hourNumbers = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+final radius  = min(width, height)/2;
+final borderRedius = min(width,height)/2;
+final Clickradius = borderRedius * 0.90;
+final double bellRadius = radius * 0.3;
+final linewidth = width * 0.06;
+final hoursTicklength = height * 0.15;
+final hoursTickwidth = width * 0.02;
+final mintsTicklength = height * 0.1;
+final mintsTickwidth = width * 0.020;
+final hoursNodleradius = radius* 0.15;
+final mintNodleradius = radius* 0.1;
+final hoursNodlelength= radius* 0.50;
+final mintNodlelength= radius* 0.65;
 
+final angle =   2 * pi/60;
 
 // upper lines
     final startYdivation = radius * 0.80;
@@ -38,18 +43,18 @@ class MyCustomClock extends CustomPainter {
 
 //     off sets
     final center = Offset(width/2, height/2);
-    final leftstartline = Offset(width/2-startXdivation,height/4-startYdivation );
-    final leftendline = Offset(width/2 -endXdivation,height/3 -endYdivation );
-    final rightstartline = Offset(width/2+startXdivation,height/4-startYdivation );
-    final rightendline = Offset(width/2 +endXdivation,height/3 -endYdivation );
+final leftstartline = Offset(width/2-startXdivation,height/4-startYdivation );
+final leftendline = Offset(width/2 -endXdivation,height/3 -endYdivation );
+final rightstartline = Offset(width/2+startXdivation,height/4-startYdivation );
+final rightendline = Offset(width/2 +endXdivation,height/3 -endYdivation );
 
 //  draw body
-    final ClockCenter  = Offset(width/2, height/2);
-    final ClockBoderCenter  = Offset(width/2, height/2);
+final ClockCenter  = Offset(width/2, height/2);
+final ClockBoderCenter  = Offset(width/2, height/2);
 
 //  draw cap
-    final Offset leftBellCenter = Offset(width * 0.21 , height * 0.01);
-    final Offset rightBellCenter = Offset(width * 0.79, height * 0.01);
+final Offset leftBellCenter = Offset(width * 0.21 , height * 0.01);
+final Offset rightBellCenter = Offset(width * 0.79, height * 0.01);
 
 // draw lower lines
     final lower = radius * 0.40;
@@ -66,26 +71,32 @@ class MyCustomClock extends CustomPainter {
 
 
 
-    final ClockPaint = Paint()..color= dialColor;
-    final ClocBorderkPaint = Paint()..color= dialborderColor;
-    final lClocBorderkPaint = Paint()..color= Colors.grey..
+final ClockPaint = Paint()..color= dialColor;
+final ClocBorderkPaint = Paint()..color= dialborderColor;
+final lClocBorderkPaint = Paint()..color= Colors.grey..
     strokeWidth = linewidth..
     strokeCap=StrokeCap.round;
-    final hoursTickpaint = Paint()..color = Colors.black38..
-    strokeWidth = hoursTickwidth;
+final hoursTickpaint = Paint()..color = Colors.black38..
+strokeWidth = hoursTickwidth;
     final mintTickpaint = Paint()..color = Colors.black..
     strokeWidth = mintsTickwidth;
     final nodlebordercolor = Paint()..color= Colors.white..
     style  = PaintingStyle.stroke;
+    final hourpaint  = Paint()..color=Colors.yellow;
+    final textPainter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+
+    );
 
 
 
     // draw diaBorder
     canvas.drawCircle(ClockBoderCenter, borderRedius, ClocBorderkPaint);
 // draw dialFace
-    canvas.drawCircle(ClockCenter, Clickradius, ClockPaint);
-    // draw upper line
-    canvas.drawLine(leftstartline, leftendline, lClocBorderkPaint);
+     canvas.drawCircle(ClockCenter, Clickradius, ClockPaint);
+     // draw upper line
+     canvas.drawLine(leftstartline, leftendline, lClocBorderkPaint);
     canvas.drawLine(rightstartline, rightendline, lClocBorderkPaint);
 // draw lower line
     canvas.drawLine(leftlowerlinestart,leftlowertlineend, lClocBorderkPaint);
@@ -103,12 +114,12 @@ class MyCustomClock extends CustomPainter {
       pi, pi,
       false, bellPaint,
     );
-    //    hoursNodle base
+  //    hoursNodle base
     canvas.drawCircle(hoursNodlecenter, hoursNodleradius, bellPaint);
     // hoursNodle base
     canvas.drawCircle(hoursNodlecenter, mintNodleradius, bellPaint);
     canvas.drawCircle(hoursNodlecenter, mintNodleradius, nodlebordercolor);
-    //    draw origin from left to center
+  //    draw origin from left to center
     canvas.translate(center.dx, center.dy);
     canvas.save();
 
@@ -116,10 +127,19 @@ class MyCustomClock extends CustomPainter {
       var isHours = i % 5 == 0;
       canvas.drawLine(
           Offset(0, -radius +10),
-          Offset(0, -radius + (isHours ? hoursTicklength : mintsTicklength)),
+         Offset(0, -radius + (isHours ? hoursTicklength : mintsTicklength)),
           isHours? hoursTickpaint:mintTickpaint);
-      canvas.rotate(angle);
+      if(now.minute == i){
+        canvas.drawLine(Offset(0, -mintNodleradius),
+            Offset(0, -mintNodlelength), mintTickpaint);
+      }
+      if(now.hour == i){
+        canvas.drawLine(Offset(0, -hoursNodleradius),
+            Offset(0, radius * 0.5), mintTickpaint);
+      }
+          canvas.rotate(angle);
     }
+    canvas.restore();
 
   }
 
